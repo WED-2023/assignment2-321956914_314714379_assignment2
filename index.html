@@ -1,1 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>My App Name I Havent Decided yet</h1>
+        <img src="https://via.placeholder.com/50" alt="App Logo">
+    </header>
 
+    <nav id="mainMenu">
+        <button onclick="navigateTo('welcome')">Welcome</button>
+        <button onclick="navigateTo('register')">Register</button>
+        <button onclick="navigateTo('login')">Login</button>
+        <button onclick="openAboutModal()">About</button>
+    </nav>
+
+
+    <div id="content">
+        <!-- Welcome Screen -->
+        <div id="welcome" class="content-page">
+            <h2>Welcome!</h2>
+            <img src="https://via.placeholder.com/150" alt="Site Logo" />
+            <p>Name: John Doe</p>
+            <p>ID: 123456789</p>
+            <a href="https://yourportfolio.com" target="_blank">My Personal Site</a>
+            <br /><br />
+            <button onclick="navigateTo('register')">Go to Register</button>
+            <button onclick="navigateTo('login')">Go to Login</button>
+        </div>
+
+        <!-- Register Screen -->
+        <div id="register" class="content-page">
+            <h2>Register</h2>
+            <form id="registerForm">
+              <label>Username:</label>
+              <input type="text" id="regUsername"/>
+          
+              <label>Password:</label>
+              <input type="password" id="regPassword"/>
+          
+              <label>Confirm Password:</label>
+              <input type="password" id="regConfirmPassword"/>
+          
+              <label>First Name:</label>
+              <input type="text" id="regFirstName"/>
+          
+              <label>Last Name:</label>
+              <input type="text" id="regLastName"/>
+          
+              <label>Email:</label>
+              <input type="email" id="regEmail"/>
+          
+              <label>Date of Birth:</label>
+              <select id="regDay"></select>
+              <select id="regMonth"></select>
+              <select id="regYear"></select>
+          
+              <br /><br />
+              <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login" class="content-page">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="password" id="password" placeholder="Password" />
+            <button id="loginButton">Login</button>
+        </div>
+
+        <!-- About Modal -->
+        <dialog id="aboutModal">
+            <div class="modal-content">
+                <button class="close-button" id="closeAboutBtn">&times;</button>
+                <h2>About This Project</h2>
+                <p><strong>Submitters:</strong> Jane Doe, John Smith</p>
+                <p><strong>Template Used:</strong> No</p>
+                <p><strong>jQuery Plugins Used:</strong> No</p>
+                <p><strong>Challenges:</strong> Managing screen transitions, user validation logic, and ensuring mobile compatibility.</p>
+            </div>
+        </dialog>
+
+
+    </div>
+    <script src="spaceships.js"></script>
+</body>
+</html>
