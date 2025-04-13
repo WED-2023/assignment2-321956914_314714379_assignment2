@@ -205,8 +205,6 @@ function navigateTo(pageId) {
 
         const shootKeyInput = document.getElementById('shootKey');
         const gameDurationInput = document.getElementById('gameDuration');
-
-
         shootKeyInput.value = '';
         gameDurationInput.value = '';
 
@@ -240,13 +238,11 @@ function closeAboutModal() {
 function handleStartGame() {
     const shootKeyInput = document.getElementById('shootKey');
     const gameDurationInput = document.getElementById('gameDuration');
-    const goodShipColorInput = document.getElementById('goodShipColor');
-    const badShipColorInput = document.getElementById('badShipColor');
+
 
     const shootKeyRaw = shootKeyInput.value;
     const duration = parseInt(gameDurationInput.value);
-    const goodShipColor = goodShipColorInput.value;
-    const badShipColor = badShipColorInput.value;
+
 
     const errors = [];
 
