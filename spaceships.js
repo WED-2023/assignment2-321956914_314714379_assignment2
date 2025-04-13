@@ -1,5 +1,35 @@
+const bgMusic = new Audio('assets/gamebackgroundmusic.mp3');
+bgMusic.loop = true;
+
+const gameOverSound = new Audio('assets/gameover.mp3');
+const enemyDestroyedSound = new Audio('assets/explosion_enemy.mp3');
+
 document.addEventListener('DOMContentLoaded', () => {
     navigateTo('welcome');
+
+    window.addEventListener('keydown', (e) => {
+        if (!keys[e.key]) {
+            keys[e.key] = true;
+    
+            if (e.key === window.shootKey || (window.shootKey === ' ' && e.code === 'Space')) {
+                createPlayerBullet();
+            }
+
+            if(e.key === 'Escape'){
+                closeAboutModal();
+            }
+        }
+    });
+
+
+    window.addEventListener('keyup', (e) => {
+        
+        if (e.key === " ") e.preventDefault();
+
+        keys[e.key] = false;
+
+
+    });
 
     const form = document.getElementById('registerForm');
     form.addEventListener('submit', function (event) {
@@ -25,15 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const backToWelcomeBtn = document.getElementById('backToWelcomeBtn');
     backToWelcomeBtn.addEventListener('click', function(event) {
+        resetGame();
         navigateTo('welcome');
     });
 
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeAboutModal();
-        }
+    const newGameButton = document.getElementById('newGameButton');
+    newGameButton.addEventListener('click', function(event) {
+        resetGame();
+        startGame();
     });
 
+    const customMessageClose = document.getElementById('customMessageClose');
+    customMessageClose.addEventListener('click', function(event) {
+        hideMessage()();
+    });
 
     aboutModal.addEventListener('click', (e) => {
         const rect = aboutModal.getBoundingClientRect();
@@ -76,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
       option.textContent = y;
       yearSelect.appendChild(option);
     }
-})
+});
 
 let users = [
     { username: 'p', password: 'testuser' } // only existing username when starting the website
@@ -104,7 +139,7 @@ function registerUser(){
     }
 
     if(!/\d/.test(password) || !/[a-zA-Z]/.test(password)) {
-        errors.push("Password must include letters and numbers")
+        errors.push("Password must include letters and numbers.")
     }
 
     // Confirm password match
@@ -124,12 +159,12 @@ function registerUser(){
     }
 
     if (errors.length > 0) {
-        alert(errors.join("\n"));
+        showMessage(errors.join("\n"));
         return false; 
     }
 
     users.push({ username, password });
-    alert("Registration successful!");
+    showMessage("Registration successful!");
     navigateTo('welcome');
     return false;
 
@@ -142,10 +177,10 @@ function loginUser() {
     const user = users.find(user => user.username === username && user.password === password);
 
     if (user) {
-        alert("Login successful!");
+        showMessage("Login successful!");
         navigateTo('configuration'); 
     } else {
-        alert("Invalid username or password.");
+        showMessage("Invalid username or password.");
     }
 }
 
@@ -154,6 +189,31 @@ function navigateTo(pageId) {
     pages.forEach(page => page.style.display = 'none');
     const targetPage = document.getElementById(pageId);
     targetPage.style.display = 'block';
+
+    if (pageId === 'welcome') {
+        const loginUsername = document.getElementById('username');
+        const loginPassword = document.getElementById('password');
+        loginUsername.value = '';
+        loginPassword.value = '';
+
+        const shootKeyInput = document.getElementById('shootKey');
+        const gameDurationInput = document.getElementById('gameDuration');
+        const goodShipColorInput = document.getElementById('goodShipColor');
+        const badShipColorInput = document.getElementById('badShipColor');
+
+        shootKeyInput.value = '';
+        gameDurationInput.value = '';
+        goodShipColorInput.value = '';
+        badShipColorInput.value = '';
+    }
+
+    if (pageId === 'game') {
+        document.getElementById('mainMenu').style.display = 'none';
+    } 
+
+    if (pageId !== 'game'){
+        document.getElementById('mainMenu').style.display = 'block';
+    }
 
 }
 
@@ -195,9 +255,15 @@ function handleStartGame() {
     }
 
     if (errors.length > 0) {
-        alert(errors.join("\n"));
+        showMessage(errors.join("\n"));
         return;
     }
+
+    // Save the configuration data 
+    window.shootKey = shootKeyRaw; 
+    window.duration = duration; 
+    window.goodShipColor = goodShipColor; 
+    window.badShipColor = badShipColor; 
 
     navigateTo('game'); 
     startGame();
@@ -205,7 +271,8 @@ function handleStartGame() {
 }
 
 
-let canvas, ctx;
+let canvas = document.getElementById('gameCanvas');
+let ctx = canvas.getContext('2d');
 let playerImg, badShip1Img, badShip2Img, badShip3Img, badShip4Img;
 let player = {
   x: 0,
@@ -214,19 +281,28 @@ let player = {
   height: 50,
   speed: 5
 };
-
+let enemyBullets = []
+let playerBullets = []
 let enemyShips = [];
 let keys = {};
-let enemySpeed = 1; 
+let enemySpeed = 2; 
 let direction = 1; 
 let maxAccelerations = 4; 
 let accelerationInterval = 5000; 
 let accelerations = 0;
-
+let enemyBulletSpeed = 3;
+let score = 0;
+let lives = 3;
+let gameStartTime;
+let gameRunning = true;
+let gameLoopFrameId;
+let accelerationIntervalId;
 
 function startGame() {
-    canvas = document.getElementById('gameCanvas');
-    ctx = canvas.getContext('2d');
+
+    bgMusic.currentTime = 0;
+    bgMusic.play();
+    gameRunning = true;
   
     player.x = Math.random() * (canvas.width - player.width);
     player.y = canvas.height - player.height;
@@ -248,13 +324,12 @@ function startGame() {
 
     createEnemyShips();
 
-
+    gameStartTime = Date.now();
     playerImg.onload = () => {
       requestAnimationFrame(gameLoop);
     };
-  
-    window.addEventListener('keydown', e => keys[e.key] = true);
-    window.addEventListener('keyup', e => keys[e.key] = false);
+
+    startAcceleratingEnemies();
   }
 
 
@@ -269,22 +344,40 @@ function update() {
     player.y = Math.max(upperLimit, Math.min(canvas.height - player.height, player.y));
 
     moveEnemies()
+    updatePlayerBullet()
+    updateEnemyBullet()
   }
   
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawMetrics();
+
     ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
 
     enemyShips.forEach(ship => {
         ctx.drawImage(ship.image, ship.x, ship.y, ship.width, ship.height);
     });
 
+    playerBullets.forEach(bullet => {
+        ctx.drawImage(bullet.image, bullet.x, bullet.y, bullet.width, bullet.height);
+    });
+
+    if (enemyBullets.length === 0 || enemyBullets[enemyBullets.length - 1].y >= canvas.height * 0.75) {
+        enemyShoot();
+    }
+
+    enemyBullets.forEach(bullet => {
+        ctx.drawImage(bullet.image, bullet.x, bullet.y, bullet.width, bullet.height);
+    });
+
   }
   
   function gameLoop() {
+    if (!gameRunning) return;
     update();
     draw();
-    requestAnimationFrame(gameLoop);
+    gameLoopFrameId = requestAnimationFrame(gameLoop);
   }
 
 
@@ -321,20 +414,30 @@ function update() {
                 y: y,
                 width: shipWidth,
                 height: shipHeight,
-                image: shipImage
+                image: shipImage,
+                row: row
             });
         }
     }
 }
 
+function startAcceleratingEnemies() {
+    accelerationIntervalId = setInterval(accelerateEnemies, accelerationInterval);
+}
+
+// Function to stop accelerating enemies
+function stopAcceleratingEnemies() {
+    clearInterval(accelerationIntervalId);
+}
+
 function accelerateEnemies() {
     if (accelerations < maxAccelerations) {
-        enemySpeed += 1.5; // Increase speed (you can change this value to control how fast the ships accelerate)
+        enemySpeed += 1.5; 
+        enemyBulletSpeed += 1.5; 
         accelerations++;
     } 
 }
 
-setInterval(accelerateEnemies, accelerationInterval);
 
 
 function moveEnemies() {
@@ -349,4 +452,211 @@ function moveEnemies() {
     if (enemyShips[enemyShips.length - 1].x >= maxX || enemyShips[0].x <= minX) {
         direction *= -1; // Reverse direction
     }
+}
+
+function createPlayerBullet() {
+    const bullet = {
+        x: player.x + player.width / 2 - 5, 
+        y: player.y,
+        width: 50,
+        height: 50,
+        speed: 7, 
+        image: new Image(),
+    };
+    bullet.image.src = 'assets/playerBullet.png'; 
+
+    playerBullets.push(bullet);
+}
+
+function updatePlayerBullet()
+{
+    playerBullets.forEach(bullet => {
+        bullet.y -= bullet.speed; 
+        if (bullet.y < 0) {
+            playerBullets = playerBullets.filter(b => b !== bullet);
+        }
+
+        // Check collision with enemies
+        for (let i = 0; i < enemyShips.length; i++) {
+            const ship = enemyShips[i];
+            if (
+                bullet.x < ship.x + ship.width &&
+                bullet.x + bullet.width > ship.x &&
+                bullet.y < ship.y + ship.height &&
+                bullet.y + bullet.height > ship.y
+            ) {
+                switch(ship.row) {
+                    case 0:
+                        score += 20;
+                        break;
+                    case 1:
+                        score += 15;
+                        break;
+                    case 2:
+                        score += 10;
+                        break;
+                    case 3:
+                        score += 5;
+                        break;
+                }
+
+                playerBullets = playerBullets.filter(b => b !== bullet);
+                enemyShips.splice(i, 1);
+                enemyDestroyedSound.currentTime = 0;
+                enemyDestroyedSound.play();
+
+                if(enemyShips.length === 0){
+                    endGame(4)
+                }
+                break;
+            }
+        }
+    });
+}
+
+function createEnemyBullet(enemy) {
+    const bullet = {
+        x: enemy.x + enemy.width / 2 - 5, 
+        y: enemy.y,
+        width: 50,
+        height: 50,
+        speed: enemyBulletSpeed, 
+        image: new Image(),
+        progress: 0
+    };
+    bullet.image.src = 'assets/enemyBullet.png'; 
+
+    enemyBullets.push(bullet);
+}
+
+function updateEnemyBullet()
+{
+    enemyBullets.forEach(bullet => {
+        bullet.y += bullet.speed; 
+        
+        bullet.progress = bullet.y / canvas.height;
+
+        if (bullet.y > canvas.height) {
+            enemyBullets = enemyBullets.filter(b => b !== bullet);
+        }
+
+        // Collision with player
+        if (
+            bullet.x < player.x + player.width &&
+            bullet.x + bullet.width > player.x &&
+            bullet.y < player.y + player.height &&
+            bullet.y + bullet.height > player.y
+        ) {
+            lives--;
+            if (lives === 0)
+            {
+                endGame(1)
+            }
+
+            player.x = Math.random() * (canvas.width - player.width);
+            player.y = canvas.height - player.height;
+
+            enemyBullets = enemyBullets.filter(b => b !== bullet);
+        }
+    });
+}
+
+function enemyShoot() {
+        const randomEnemy = enemyShips[Math.floor(Math.random() * enemyShips.length)];
+
+        createEnemyBullet(randomEnemy);
+}
+
+function drawMetrics() {
+    const elapsed = Math.floor((Date.now() - gameStartTime) / 1000); 
+    const totalSeconds = window.duration * 60;
+    const remainingTime = Math.max(0, totalSeconds - elapsed); 
+
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = remainingTime % 60;
+
+    ctx.fillStyle = 'white';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText(`Score: ${score}`, 10, 25);
+    ctx.fillText(`Lives: ${lives}`, 10, 50);
+
+    ctx.textAlign = 'right';
+    ctx.fillText(`Time: ${minutes}:${seconds.toString().padStart(2, '0')}`, canvas.width - 10, 25);
+
+    if (remainingTime === 0 && score < 100)
+        {
+            endGame(2)
+        }
+
+    if (remainingTime === 0 && score >= 100)
+        {
+            endGame(3)
+        }
+
+}
+
+function endGame(code) {
+    gameRunning = false;
+    let message = "";
+    bgMusic.pause();
+    bgMusic.currentTime = 0; // Reset for next time
+    gameOverSound.play();
+
+    switch(code) {
+        case 1:
+            message = "You Lost!";
+            break;
+        case 2:
+            message = `You can do better... \nFinal Score: ${score}`;
+            break;
+        case 3:
+            message = `Winner! 🏆`;
+            break;
+        case 4:
+            message = `Champion! 🚀`;
+            break;
+    }
+
+    showMessage(message);
+
+}
+
+function showMessage(text) {
+    const messageBox = document.getElementById('customMessage');
+    const messageText = document.getElementById('customMessageText');
+    messageText.innerHTML = text.replace(/\n/g, '<br>'); // This line is key!
+    messageBox.classList.remove('hidden');
+
+    // Hide the message after 3 seconds
+    setTimeout(function() {
+        hideMessage();
+    }, 3000); 
+}
+
+function hideMessage() {
+    const messageBox = document.getElementById('customMessage');
+    messageBox.classList.add('hidden');
+}
+
+
+function resetGame() {
+    gameRunning = false;
+    cancelAnimationFrame(gameLoopFrameId);
+    stopAcceleratingEnemies();
+    bgMusic.pause();
+    bgMusic.currentTime = 0; 
+    score = 0;
+    lives = 3;
+    playerBullets = [];
+    enemyBullets = [];
+    enemyShips = [];
+    direction = 1;
+    accelerations = 0;
+    enemySpeed = 2;
+    enemyBulletSpeed = 3;
+
+    player.x = Math.random() * (canvas.width - player.width);
+    player.y = canvas.height - player.height;
+
 }

@@ -108,10 +108,17 @@
         <div id="game" class="applicationpage">
             <canvas id="gameCanvas" width="900" height="600"></canvas>
             <button id="backToWelcomeBtn">Back to Welcome</button>
+            <button id="newGameButton">New Game</button>
+            <button id="inGameModal" onclick="openAboutModal()">About</button>
         </div>
     </div>
 
+    <div id="customMessage" class="custom-message hidden">
+        <p id="customMessageText"></p>
+        <button id="customMessageClose">Close</button>
+    </div>
 
+    
     <script src="spaceships.js"></script>
 </body>
 </html>

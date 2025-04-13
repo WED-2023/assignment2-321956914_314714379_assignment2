@@ -33,7 +33,43 @@
   #backToWelcomeBtn:hover {
     background-color: #007799;
   }
+  #inGameModal {
+    position: fixed;
+    bottom: 20px;
+    left: 330px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #005577;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+  }
 
+  #inGameModal:hover {
+    background-color: #007799;
+  }
+
+  #newGameButton {
+    position: fixed;
+    bottom: 20px;
+    left: 195px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #005577;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  #newGameButton:hover {
+    background-color: #007799;
+  }
+
+  
   body {
     font-family: Arial, sans-serif;
     background-image: url('assets/background.png');
@@ -54,5 +90,99 @@
     overflow: hidden; /* This stops scrolling */
   }
   
+  .custom-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 10, 20, 0.95);
+    border: 2px solid #0ff;
+    padding: 30px 40px;
+    color: #0ff;
+    font-size: 1.2rem;
+    font-family: 'Arial', sans-serif;
+    border-radius: 10px;
+    z-index: 2000;
+    text-align: center;
+    box-shadow: 0 0 20px #0ff;
+    backdrop-filter: blur(5px);
+    max-width: 600px;
+    width: 80%;
+  }
+  
+  .custom-message button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #005577;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .custom-message button:hover {
+    background-color: #007799;
+  }
+  
+  .custom-message.hidden {
+    display: none;
+  }
+
+  #mainMenu {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    gap: 20px;  
+    padding: 40px 20px;
+    background-color: rgba(0, 10, 20, 0.7);
+    border: 2px solid #0ff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+  }
+  
+  #mainMenu button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    background-color: #005577;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 255, 255, 0.4);
+    width: 200px;
+    text-align: center;
+  }
+  
+  #mainMenu button:hover {
+    background-color: #007799;
+    transform: translateY(-2px);
+  }
+
+  button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    background-color: #005577;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 255, 255, 0.4);
+    text-align: center;
+  }
+  
+  button:hover {
+    background-color: #007799;
+    transform: translateY(-2px);
+  }
   
   
