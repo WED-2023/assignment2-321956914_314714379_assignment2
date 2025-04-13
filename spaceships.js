@@ -260,11 +260,9 @@ function handleStartGame() {
         return;
     }
 
-    // Save the configuration data 
     window.shootKey = shootKeyRaw; 
     window.duration = duration; 
-    window.goodShipColor = goodShipColor; 
-    window.badShipColor = badShipColor; 
+
 
     navigateTo('game'); 
     startGame();
