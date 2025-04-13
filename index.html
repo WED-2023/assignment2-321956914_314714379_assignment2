@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
@@ -21,7 +22,7 @@
 
     <div id="content">
         <!-- Welcome Screen -->
-        <div id="welcome" class="content-page">
+        <div id="welcome" class="applicationpage">
             <h2>Welcome!</h2>
             <img src="https://via.placeholder.com/150" alt="Site Logo" />
             <p>Name: John Doe</p>
@@ -33,7 +34,7 @@
         </div>
 
         <!-- Register Screen -->
-        <div id="register" class="content-page">
+        <div id="register" class="applicationpage">
             <h2>Register</h2>
             <form id="registerForm">
               <label>Username:</label>
@@ -65,7 +66,7 @@
         </div>
 
         <!-- Login Screen -->
-        <div id="login" class="content-page">
+        <div id="login" class="applicationpage">
             <h2>Login</h2>
             <input type="text" id="username" placeholder="Username" />
             <input type="password" id="password" placeholder="Password" />
@@ -74,7 +75,7 @@
 
         <!-- About Modal -->
         <dialog id="aboutModal">
-            <div class="modal-content">
+            <div class="applicationmodal">
                 <button class="close-button" id="closeAboutBtn">&times;</button>
                 <h2>About This Project</h2>
                 <p><strong>Submitters:</strong> Jane Doe, John Smith</p>
@@ -84,8 +85,33 @@
             </div>
         </dialog>
 
+        <!-- Configuration Screen -->
+        <div id="configuration" class="applicationpage">
+            <h2>Game Configuration</h2>
+        
+            <label for="shootKey">Select shooting key (A-Z or Space):</label>
+            <input type="text" id="shootKey" maxlength="1" placeholder="Press a key" />
+        
+            <label for="gameDuration">Select game duration (minutes, min 2):</label>
+            <input type="number" id="gameDuration" min="2" value="2" />
 
+            <label for="goodShipColor">Choose your ship color:</label>
+            <input type="color" id="goodShipColor" value="#000000" />
+
+            <label for="badShipColor">Choose enemy ship color:</label>
+            <input type="color" id="badShipColor" value="#000000" />
+        
+            <button id="startbutton">Start Game</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game" class="applicationpage">
+            <canvas id="gameCanvas" width="900" height="600"></canvas>
+            <button id="backToWelcomeBtn">Back to Welcome</button>
+        </div>
     </div>
+
+
     <script src="spaceships.js"></script>
 </body>
 </html>
