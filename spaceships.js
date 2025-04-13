@@ -448,11 +448,13 @@ function moveEnemies() {
     enemyShips.forEach(ship => {
         ship.x += direction * enemySpeed;
     });
-    for (let i = 0; i < enemyShips.length; i++) {
-        const ship = enemyShips[i];
-        if (ship.x >= maxX || ship.x <= minX) {
-            direction *= -1; // Reverse direction
-        }
+    // Find the leftmost and rightmost ships by checking the smallest and largest x positions
+    const leftmostShip = enemyShips.reduce((left, ship) => ship.x < left.x ? ship : left);
+    const rightmostShip = enemyShips.reduce((right, ship) => ship.x > right.x ? ship : right);
+
+    // If either the leftmost or rightmost ship reaches the edge, reverse the direction
+    if (leftmostShip.x <= minX || rightmostShip.x >= maxX) {
+        direction *= -1; 
     }
 }
 
