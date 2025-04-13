@@ -184,5 +184,21 @@
     background-color: #007799;
     transform: translateY(-2px);
   }
+
+  ol {
+    padding-left: 20px; 
+    margin-left: 0; 
+    list-style-position: inside; 
+  }
   
+  li {
+    display: flex;
+    align-items: center; 
+    margin-bottom: 8px; 
+  }
   
+  li::before {
+    content: counter(list-item); 
+    counter-increment: list-item;
+    margin-right: 15px;  
+  }

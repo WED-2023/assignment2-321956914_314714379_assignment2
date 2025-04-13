@@ -178,6 +178,13 @@ function loginUser() {
 
     if (user) {
         showMessage("Login successful!");
+
+        currentUser = {
+            username: user.username,
+            scores: []  
+        };
+
+
         navigateTo('configuration'); 
     } else {
         showMessage("Invalid username or password.");
@@ -297,6 +304,7 @@ let gameStartTime;
 let gameRunning = true;
 let gameLoopFrameId;
 let accelerationIntervalId;
+let currentUser = null;
 
 function startGame() {
 
@@ -598,6 +606,7 @@ function drawMetrics() {
 
 function endGame(code) {
     gameRunning = false;
+    currentUser.scores.push(score);
     let message = "";
     bgMusic.pause();
     bgMusic.currentTime = 0; // Reset for next time
@@ -618,6 +627,8 @@ function endGame(code) {
             break;
     }
 
+    message += "<br><strong>Your Scores:</strong><br>" + generateScoreTable();
+
     showMessage(message);
 
 }
@@ -628,10 +639,6 @@ function showMessage(text) {
     messageText.innerHTML = text.replace(/\n/g, '<br>'); // This line is key!
     messageBox.classList.remove('hidden');
 
-    // Hide the message after 3 seconds
-    setTimeout(function() {
-        hideMessage();
-    }, 3000); 
 }
 
 function hideMessage() {
@@ -659,4 +666,24 @@ function resetGame() {
     player.x = Math.random() * (canvas.width - player.width);
     player.y = canvas.height - player.height;
 
+}
+
+function generateScoreTable() {
+    if (!currentUser || !currentUser.scores.length) return "No games played yet.";
+
+    let sorted = [...currentUser.scores].sort((a, b) => b - a);
+    let latest = currentUser.scores[currentUser.scores.length - 1];
+    let position = sorted.indexOf(latest) + 1;
+
+    let table = "<ol>";
+    sorted.forEach((s, i) => {
+        if (s === latest && i === position - 1) {
+            table += `<li><strong>${s} (Latest)</strong></li>`;
+        } else {
+            table += `<li>${s}</li>`;
+        }
+    });
+    table += "</ol>";
+    table += `<p>Your latest score is ranked #${position}</p>`;
+    return table;
 }
