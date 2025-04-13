@@ -297,7 +297,7 @@ let direction = 1;
 let maxAccelerations = 4; 
 let accelerationInterval = 5000; 
 let accelerations = 0;
-let enemyBulletSpeed = 3;
+let enemyBulletSpeed = 5;
 let score = 0;
 let lives = 3;
 let gameStartTime;
@@ -661,7 +661,7 @@ function resetGame() {
     direction = 1;
     accelerations = 0;
     enemySpeed = 2;
-    enemyBulletSpeed = 3;
+    enemyBulletSpeed = 5;
 
     player.x = Math.random() * (canvas.width - player.width);
     player.y = canvas.height - player.height;
