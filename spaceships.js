@@ -205,13 +205,11 @@ function navigateTo(pageId) {
 
         const shootKeyInput = document.getElementById('shootKey');
         const gameDurationInput = document.getElementById('gameDuration');
-        const goodShipColorInput = document.getElementById('goodShipColor');
-        const badShipColorInput = document.getElementById('badShipColor');
+
 
         shootKeyInput.value = '';
         gameDurationInput.value = '';
-        goodShipColorInput.value = '';
-        badShipColorInput.value = '';
+
     }
 
     if (pageId === 'game') {
