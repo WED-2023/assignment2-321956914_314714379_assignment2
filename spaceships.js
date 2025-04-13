@@ -456,9 +456,11 @@ function moveEnemies() {
     enemyShips.forEach(ship => {
         ship.x += direction * enemySpeed;
     });
-
-    if (enemyShips[enemyShips.length - 1].x >= maxX || enemyShips[0].x <= minX) {
-        direction *= -1; // Reverse direction
+    for (let i = 0; i < enemyShips.length; i++) {
+        const ship = enemyShips[i];
+        if (ship.x >= maxX || ship.x <= minX) {
+            direction *= -1; // Reverse direction
+        }
     }
 }
 
