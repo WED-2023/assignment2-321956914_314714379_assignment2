@@ -306,7 +306,7 @@ function startGame() {
     bgMusic.play();
     gameRunning = true;
   
-    player.x = Math.random() * (canvas.width - player.width);
+    player.x = (canvas.width - player.width) / 2;
     player.y = canvas.height - player.height;
 
     playerImg = new Image();
@@ -559,7 +559,7 @@ function updateEnemyBullet()
                 endGame(1)
             }
 
-            player.x = Math.random() * (canvas.width - player.width);
+            player.x = (canvas.width - player.width) / 2;
             player.y = canvas.height - player.height;
 
             enemyBullets = enemyBullets.filter(b => b !== bullet);
@@ -664,7 +664,7 @@ function resetGame() {
     enemySpeed = 2;
     enemyBulletSpeed = 5;
 
-    player.x = Math.random() * (canvas.width - player.width);
+    player.x =  (canvas.width - player.width) / 2;
     player.y = canvas.height - player.height;
 
 }
