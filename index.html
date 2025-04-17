@@ -27,9 +27,9 @@
         <!-- Welcome Screen -->
         <div id="welcome" class="applicationpage">
             <h2>Welcome!</h2>
-            <img src="https://via.placeholder.com/150" alt="Site Logo" />
-            <p>Name: John Doe</p>
-            <p>ID: 123456789</p>
+            <img id="welcomeLogo" src="assets/logo.png" alt="Site Logo" />
+            <p>Names: Rudy Kokoliev, Or Lev Ari</p>
+            <p>ID: 321956914, 314714379</p>
             <a href="https://yourportfolio.com" target="_blank">My Personal Site</a>
             <br /><br />
             <div class="welcome-buttons">
@@ -61,9 +61,12 @@
               <input type="email" id="regEmail"/>
           
               <label>Date of Birth:</label>
-              <select id="regDay"></select>
-              <select id="regMonth"></select>
-              <select id="regYear"></select>
+              <div class="dob-select">
+                <select id="regDay"></select>
+                <select id="regMonth"></select>
+                <select id="regYear"></select>
+              </div>
+              
           
               <br /><br />
               <button type="submit">Submit</button>

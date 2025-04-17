@@ -220,7 +220,6 @@
     text-align: center;       
     font-size: 5rem;        
     margin: 20px 0;
-    margin-top: 100px;
   }
 
   #appLogo {
@@ -232,10 +231,140 @@
     z-index: 1000;     
   }
 
+  #welcomeLogo {
+    position: fixed;
+    top: 400px;
+    left: 770px;
+    width: 200px;      
+    height: auto;
+    z-index: 1000;     
+  }
+
+  #welcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+  }
+  
+
 .welcome-buttons {
     position: absolute;
     bottom: 20px;
     left: 20px;
     display: flex;
     gap: 10px;
+}
+
+#login input {
+  width: 280px;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  box-sizing: border-box;
+
+}
+
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; 
+  justify-content: center;
+  min-height: 100vh;
+  padding-left: 550px;
+  margin-top: 100px;
+}
+
+#login h2 {
+  color: #fff; 
+  margin-bottom: 20px; 
+  text-align: center; 
+  padding-right: 500px;
+}
+
+#register {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  padding: 20px;
+  border-radius: 10px;
+
+}
+
+#register h2 {
+  color: #fff; 
+  margin-bottom: 20px; 
+  text-align: center; 
+}
+
+#register form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px; 
+  max-width: 400px;
+  width: 100%; 
+  padding-bottom: 100px;
+  padding-left: 650px;
+  border-radius: 10px;
+}
+
+#register input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 5px; 
+  border-radius: 5px;
+  border: none;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #333;
+  
+}
+
+#register select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+}
+
+#register .dob-select {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#register .dob-select select {
+  width: 100px; 
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+}
+
+
+#register label {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 5px;
+  text-align: left;
+  width: 100%;
+  padding-left: 10px;
+  
 }
