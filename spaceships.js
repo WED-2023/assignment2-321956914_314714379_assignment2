@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if(e.key === 'Escape'){
                 closeAboutModal();
+                hideMessage()
             }
+
         }
     });
 
@@ -632,8 +634,11 @@ function endGame(code) {
 function showMessage(text) {
     const messageBox = document.getElementById('customMessage');
     const messageText = document.getElementById('customMessageText');
-    messageText.innerHTML = text.replace(/\n/g, '<br>'); // This line is key!
+    messageText.innerHTML = text.replace(/\n/g, '<br>');
     messageBox.classList.remove('hidden');
+
+    enableOutsideClickCloseForMessage();
+
 
 }
 
@@ -682,4 +687,18 @@ function generateScoreTable() {
     table += "</ol>";
     table += `<p>Your latest score is ranked #${position}</p>`;
     return table;
+}
+
+function enableOutsideClickCloseForMessage() {
+    setTimeout(() => {
+        function handleClickOutside(event) {
+            const messageBox = document.getElementById('customMessage');
+            if (!messageBox.classList.contains('hidden') && !messageBox.contains(event.target)) {
+                hideMessage();
+                document.removeEventListener('click', handleClickOutside); // Clean up
+            }
+        }
+
+        document.addEventListener('click', handleClickOutside);
+    }, 0);
 }
