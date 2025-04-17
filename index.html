@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Slackey&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>My App Name I Havent Decided yet</h1>
-        <img src="https://via.placeholder.com/50" alt="App Logo">
+        <h1 id="appName">STITCH - The Escape</h1>
+        <img id="appLogo" src="assets/logo.png" alt="App Logo">
     </header>
 
     <nav id="mainMenu">
@@ -29,8 +32,10 @@
             <p>ID: 123456789</p>
             <a href="https://yourportfolio.com" target="_blank">My Personal Site</a>
             <br /><br />
-            <button onclick="navigateTo('register')">Go to Register</button>
-            <button onclick="navigateTo('login')">Go to Login</button>
+            <div class="welcome-buttons">
+                <button onclick="navigateTo('register')">Go to Register</button>
+                <button onclick="navigateTo('login')">Go to Login</button>
+            </div>
         </div>
 
         <!-- Register Screen -->

@@ -20,7 +20,7 @@
     left: 20px;
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #005577;
+    background-color: #3b94b7;
     color: white;
     border: none;
     border-radius: 5px;
@@ -37,7 +37,7 @@
     left: 330px;
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #005577;
+    background-color: #3b94b7;
     color: white;
     border: none;
     border-radius: 5px;
@@ -55,7 +55,7 @@
     left: 195px;
     padding: 10px 20px;
     font-size: 1rem;
-    background-color: #005577;
+    background-color: #3b94b7;
     color: white;
     border: none;
     border-radius: 5px;
@@ -70,7 +70,7 @@
   
   body {
     font-family: Arial, sans-serif;
-    background-image: url('assets/background.png');
+    background-image: url('assets/Background1.jpg');
     background-size: cover;          
     background-position: center; 
     background-repeat: no-repeat;    
@@ -111,7 +111,7 @@
   .custom-message button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #005577;
+    background-color: #3b94b7;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -130,45 +130,48 @@
 
   #mainMenu {
     display: flex;
-    flex-direction: column; 
+    flex-direction: row; 
+    flex-wrap: nowrap; 
+    justify-content: center; 
     align-items: center;
-    justify-content: center;
     gap: 20px;  
-    padding: 40px 20px;
-    background-color: rgba(0, 10, 20, 0.7);
-    border: 2px solid #0ff;
+    padding: 10px;
+    background-color: rgba(0, 39, 78, 0.7);
+    border: 2px solid #3b94b7;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
-    position: absolute;
-    top: 10%;
+    box-shadow: 0 4px 20px rgba(46, 185, 185, 0.473);
+    position: fixed;
+    top: 10px;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%);
     z-index: 100;
+    max-width: 90vw;
+    overflow-x: auto;
   }
   
   #mainMenu button {
     padding: 12px 30px;
     font-size: 1.1rem;
-    background-color: #005577;
+    background-color: #3b94b7;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
     box-shadow: 0 2px 6px rgba(0, 255, 255, 0.4);
-    width: 200px;
+    width: 150px;
     text-align: center;
   }
   
   #mainMenu button:hover {
-    background-color: #007799;
+    background-color: #3b94b7;
     transform: translateY(-2px);
   }
 
   button {
     padding: 12px 30px;
     font-size: 1.1rem;
-    background-color: #005577;
+    background-color: #3b94b7;
     color: white;
     border: none;
     border-radius: 5px;
@@ -201,4 +204,38 @@
     margin-right: 15px;  
   }
 
+  .slackey-regular {
+    font-family: "Slackey", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
   
+  h1 {
+    font-family: "Slackey", sans-serif;
+    margin-left: 20px;
+  }
+
+  h2 {
+    font-family: "Slackey", sans-serif;
+    text-align: center;       
+    font-size: 5rem;        
+    margin: 20px 0;
+    margin-top: 100px;
+  }
+
+  #appLogo {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 150px;      
+    height: auto;
+    z-index: 1000;     
+  }
+
+.welcome-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}

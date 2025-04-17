@@ -308,19 +308,19 @@ function startGame() {
     player.y = canvas.height - player.height;
 
     playerImg = new Image();
-    playerImg.src = 'assets/goodship.png';
+    playerImg.src = 'assets/Stitch.png';
     
     badShip1Img = new Image();
-    badShip1Img.src = 'assets/badship1.png'; 
+    badShip1Img.src = 'assets/Enemy1.png'; 
 
     badShip2Img = new Image();
-    badShip2Img.src = 'assets/badship2.png'; 
+    badShip2Img.src = 'assets/Enemy2.png'; 
 
     badShip3Img = new Image();
-    badShip3Img.src = 'assets/badship3.png'; 
+    badShip3Img.src = 'assets/Enemy3.png'; 
 
     badShip4Img = new Image();
-    badShip4Img.src = 'assets/badship4.png'; 
+    badShip4Img.src = 'assets/Enemy4.png'; 
 
     createEnemyShips();
 
