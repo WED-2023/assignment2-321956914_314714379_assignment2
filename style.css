@@ -413,3 +413,16 @@
 footer h5 {
   margin: 0;
 }
+
+a {
+  color: #0ff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #3b94b7;
+  text-decoration: underline;
+}
