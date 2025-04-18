@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       registerUser();
+      form.reset();
     });
 
     const loginButton = document.getElementById('loginButton');
