@@ -195,6 +195,7 @@ function loginUser() {
 }
 
 function navigateTo(pageId) {
+    const globalFooter = document.getElementById('globalfooter');
     const pages = document.querySelectorAll('.applicationpage');
     pages.forEach(page => page.style.display = 'none');
     const targetPage = document.getElementById(pageId);
@@ -219,6 +220,16 @@ function navigateTo(pageId) {
 
     if (pageId !== 'game'){
         document.getElementById('mainMenu').style.display = 'block';
+    }
+
+    if (pageId === 'register')
+    {
+        globalFooter.style.display = 'none';
+    }
+
+    if (pageId !== 'register')
+    {
+        globalFooter.style.display = 'block';
     }
 
 }
